@@ -20,8 +20,8 @@ export const UserForm: React.FC<UserFormProps> = ({
     email: '',
     mobile: '',
     address: '',
-    seatNo: '',
-    joiningDate: new Date().toISOString().split('T')[0]
+    seat_no: '',
+    joining_date: new Date().toISOString().split('T')[0]
   });
   
   const [errors, setErrors] = useState<Partial<Record<keyof User, string>>>({});
@@ -33,8 +33,8 @@ export const UserForm: React.FC<UserFormProps> = ({
         email: initialData.email,
         mobile: initialData.mobile,
         address: initialData.address,
-        seatNo: initialData.seatNo,
-        joiningDate: initialData.joiningDate.split('T')[0]
+        seat_no: initialData.seat_no,
+        joining_date: initialData.joining_date.split('T')[0]
       });
     }
   }, [initialData]);
@@ -62,12 +62,12 @@ export const UserForm: React.FC<UserFormProps> = ({
       newErrors.address = 'Address is required';
     }
     
-    if (!formData.seatNo.trim()) {
-      newErrors.seatNo = 'Seat No. is required';
+    if (!formData.seat_no.trim()) {
+      newErrors.seat_no = 'Seat No. is required';
     }
     
-    if (!formData.joiningDate) {
-      newErrors.joiningDate = 'Joining Date is required';
+    if (!formData.joining_date) {
+      newErrors.joining_date = 'Joining Date is required';
     }
     
     setErrors(newErrors);
@@ -90,7 +90,7 @@ export const UserForm: React.FC<UserFormProps> = ({
     if (validate()) {
       onSubmit({
         ...formData,
-        joiningDate: new Date(formData.joiningDate).toISOString()
+        joining_date: new Date(formData.joining_date).toISOString()
       });
     }
   };
@@ -131,11 +131,11 @@ export const UserForm: React.FC<UserFormProps> = ({
         
         <Input
           label="Seat No."
-          id="seatNo"
-          name="seatNo"
-          value={formData.seatNo}
+          id="seat_no"
+          name="seat_no"
+          value={formData.seat_no}
           onChange={handleChange}
-          error={errors.seatNo}
+          error={errors.seat_no}
           required
         />
         
@@ -153,12 +153,12 @@ export const UserForm: React.FC<UserFormProps> = ({
         
         <Input
           label="Joining Date"
-          id="joiningDate"
-          name="joiningDate"
+          id="joining_date"
+          name="joining_date"
           type="date"
-          value={formData.joiningDate}
+          value={formData.joining_date}
           onChange={handleChange}
-          error={errors.joiningDate}
+          error={errors.joining_date}
           required
         />
       </div>

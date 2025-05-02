@@ -11,11 +11,11 @@ export const getUserPaymentStatus = (users: User[], payments: Payment[]): UserWi
   
   return users.map(user => {
     const hasPaidForCurrentMonth = payments.some(
-      payment => payment.userId === user.id && payment.paidForMonth === currentMonth
+      payment => payment.user_id === user.id && payment.paid_for_month === currentMonth
     );
     
     const hasPaidForPreviousMonth = payments.some(
-      payment => payment.userId === user.id && payment.paidForMonth === previousMonth
+      payment => payment.user_id === user.id && payment.paid_for_month === previousMonth
     );
     
     return {
@@ -52,13 +52,13 @@ export const filterPayments = (
   users: User[]
 ): Payment[] => {
   return payments.filter(payment => {
-    const user = users.find(u => u.id === payment.userId);
+    const user = users.find(u => u.id === payment.user_id);
     if (!user) return false;
     
     const matchesEmail = !filters.email || user.email.toLowerCase().includes(filters.email.toLowerCase());
     const matchesPhone = !filters.phone || user.mobile.includes(filters.phone);
-    const matchesMode = !filters.mode || payment.paymentMode === filters.mode;
-    const matchesDate = !filters.date || payment.paymentDate.includes(filters.date);
+    const matchesMode = !filters.mode || payment.payment_mode === filters.mode;
+    const matchesDate = !filters.date || payment.payment_date.includes(filters.date);
     
     return matchesEmail && matchesPhone && matchesMode && matchesDate;
   });
@@ -66,6 +66,6 @@ export const filterPayments = (
 
 export const sortPaymentsByDate = (payments: Payment[]): Payment[] => {
   return [...payments].sort((a, b) => 
-    new Date(b.paymentDate).getTime() - new Date(a.paymentDate).getTime()
+    new Date(b.payment_date).getTime() - new Date(a.payment_date).getTime()
   );
 };

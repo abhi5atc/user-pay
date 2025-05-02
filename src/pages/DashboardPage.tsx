@@ -16,8 +16,8 @@ export const DashboardPage: React.FC = () => {
   const currentMonth = getCurrentMonth();
   const previousMonth = getPreviousMonth();
   
-  const currentMonthPayments = payments.filter(p => p.paidForMonth === currentMonth);
-  const previousMonthPayments = payments.filter(p => p.paidForMonth === previousMonth);
+  const currentMonthPayments = payments.filter(p => p.paid_for_month === currentMonth);
+  const previousMonthPayments = payments.filter(p => p.paid_for_month === previousMonth);
   
   const currentMonthAmount = currentMonthPayments.reduce((sum, payment) => sum + payment.amount, 0);
   const previousMonthAmount = previousMonthPayments.reduce((sum, payment) => sum + payment.amount, 0);
@@ -27,8 +27,8 @@ export const DashboardPage: React.FC = () => {
   
   const recentPayments = sortPaymentsByDate(payments).slice(0, 5);
   
-  const getUserName = (userId: string): string => {
-    const user = users.find(u => u.id === userId);
+  const getUserName = (user_id: string): string => {
+    const user = users.find(u => u.id === user_id);
     return user ? user.name : 'Unknown User';
   };
   
@@ -87,10 +87,10 @@ export const DashboardPage: React.FC = () => {
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="text-sm font-medium text-gray-900">
-                            {getUserName(payment.userId)}
+                            {getUserName(payment.user_id)}
                           </p>
                           <p className="text-sm text-gray-500">
-                            {getMonthName(payment.paidForMonth)} • {payment.paymentMode}
+                            {getMonthName(payment.paid_for_month)} • {payment.payment_mode}
                           </p>
                         </div>
                         <p className="text-sm font-semibold text-gray-900">

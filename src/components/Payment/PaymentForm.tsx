@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Payment, User, PaymentMode } from '../../types';
+import React, { useState } from 'react';
+import { Payment, User, payment_mode } from '../../types';
 import { Input } from '../UI/Input';
 import { Select } from '../UI/Select';
 import { Button } from '../UI/Button';
@@ -19,17 +19,17 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
 }) => {
   const initialDate = new Date().toISOString().slice(0, 16);
   const [formData, setFormData] = useState<Omit<Payment, 'id'>>({
-    userId: '',
-    paymentDate: initialDate,
-    paymentMode: 'Cash',
+    user_id: '',
+    payment_date: initialDate,
+    payment_mode: 'Cash',
     amount: 0,
-    paidForMonth: new Date().toISOString().slice(0, 7),
+    paid_for_month: new Date().toISOString().slice(0, 7),
     remarks: ''
   });
   
   const [errors, setErrors] = useState<Record<string, string>>({});
   
-  const paymentModes: { value: PaymentMode; label: string }[] = [
+  const payment_modes: { value: payment_mode; label: string }[] = [
     { value: 'Cash', label: 'Cash' },
     { value: 'Card', label: 'Card' },
     { value: 'UPI', label: 'UPI' },
@@ -53,16 +53,16 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
   const validate = (): boolean => {
     const newErrors: Record<string, string> = {};
     
-    if (!formData.userId) {
-      newErrors.userId = 'User is required';
+    if (!formData.user_id) {
+      newErrors.user_id = 'User is required';
     }
     
-    if (!formData.paymentDate) {
-      newErrors.paymentDate = 'Payment date is required';
+    if (!formData.payment_date) {
+      newErrors.payment_date = 'Payment date is required';
     }
     
-    if (!formData.paymentMode) {
-      newErrors.paymentMode = 'Payment mode is required';
+    if (!formData.payment_mode) {
+      newErrors.payment_mode = 'Payment mode is required';
     }
     
     if (!formData.amount) {
@@ -71,8 +71,8 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
       newErrors.amount = 'Amount must be greater than 0';
     }
     
-    if (!formData.paidForMonth) {
-      newErrors.paidForMonth = 'Month is required';
+    if (!formData.paid_for_month) {
+      newErrors.paid_for_month = 'Month is required';
     }
     
     setErrors(newErrors);
@@ -106,48 +106,48 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
     <form onSubmit={handleSubmit} className="space-y-4">
       <Select
         label="User"
-        id="userId"
-        name="userId"
-        value={formData.userId}
+        id="user_id"
+        name="user_id"
+        value={formData.user_id}
         options={userOptions}
         onChange={(value) => {
-          setFormData(prev => ({ ...prev, userId: value }));
-          if (errors.userId) {
-            setErrors(prev => ({ ...prev, userId: '' }));
+          setFormData(prev => ({ ...prev, user_id: value }));
+          if (errors.user_id) {
+            setErrors(prev => ({ ...prev, user_id: '' }));
           }
         }}
-        error={errors.userId}
+        error={errors.user_id}
         required
       />
       
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Input
           label="Payment Date & Time"
-          id="paymentDate"
-          name="paymentDate"
+          id="payment_date"
+          name="payment_date"
           type="datetime-local"
-          value={formData.paymentDate}
+          value={formData.payment_date}
           onChange={handleChange}
-          error={errors.paymentDate}
+          error={errors.payment_date}
           required
         />
         
         <Select
           label="Payment Mode"
-          id="paymentMode"
-          name="paymentMode"
-          value={formData.paymentMode}
-          options={paymentModes}
+          id="payment_mode"
+          name="payment_mode"
+          value={formData.payment_mode}
+          options={payment_modes}
           onChange={(value) => {
             setFormData(prev => ({ 
               ...prev, 
-              paymentMode: value as PaymentMode 
+              payment_mode: value as payment_mode 
             }));
-            if (errors.paymentMode) {
-              setErrors(prev => ({ ...prev, paymentMode: '' }));
+            if (errors.payment_mode) {
+              setErrors(prev => ({ ...prev, payment_mode: '' }));
             }
           }}
-          error={errors.paymentMode}
+          error={errors.payment_mode}
           required
         />
         
@@ -166,17 +166,17 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
         
         <Select
           label="Paid For Month"
-          id="paidForMonth"
-          name="paidForMonth"
-          value={formData.paidForMonth}
+          id="paid_for_month"
+          name="paid_for_month"
+          value={formData.paid_for_month}
           options={monthOptions}
           onChange={(value) => {
-            setFormData(prev => ({ ...prev, paidForMonth: value }));
-            if (errors.paidForMonth) {
-              setErrors(prev => ({ ...prev, paidForMonth: '' }));
+            setFormData(prev => ({ ...prev, paid_for_month: value }));
+            if (errors.paid_for_month) {
+              setErrors(prev => ({ ...prev, paid_for_month: '' }));
             }
           }}
-          error={errors.paidForMonth}
+          error={errors.paid_for_month}
           required
         />
       </div>

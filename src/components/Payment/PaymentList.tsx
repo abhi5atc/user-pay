@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Payment, User, PaymentMode } from '../../types';
+import { Payment, User, payment_mode } from '../../types';
 import { Card, CardHeader, CardBody } from '../UI/Card';
 import { Button } from '../UI/Button';
 import { Input } from '../UI/Input';
@@ -27,7 +27,7 @@ export const PaymentList: React.FC<PaymentListProps> = ({
     date: ''
   });
   
-  const paymentModes: { value: string; label: string }[] = [
+  const payment_modes: { value: string; label: string }[] = [
     { value: '', label: 'All Modes' },
     { value: 'Cash', label: 'Cash' },
     { value: 'Card', label: 'Card' },
@@ -39,22 +39,22 @@ export const PaymentList: React.FC<PaymentListProps> = ({
   const filteredPayments = filterPayments(payments, filters, users);
   const sortedPayments = sortPaymentsByDate(filteredPayments);
   
-  const getUserName = (userId: string): string => {
-    const user = users.find(u => u.id === userId);
+  const getUserName = (user_id: string): string => {
+    const user = users.find(u => u.id === user_id);
     return user ? user.name : 'Unknown User';
   };
   
-  const getUserEmail = (userId: string): string => {
-    const user = users.find(u => u.id === userId);
+  const getUserEmail = (user_id: string): string => {
+    const user = users.find(u => u.id === user_id);
     return user ? user.email : '';
   };
   
-  const getUserMobile = (userId: string): string => {
-    const user = users.find(u => u.id === userId);
+  const getUserMobile = (user_id: string): string => {
+    const user = users.find(u => u.id === user_id);
     return user ? user.mobile : '';
   };
   
-  const getPaymentModeColor = (mode: PaymentMode): string => {
+  const getpayment_modeColor = (mode: payment_mode): string => {
     switch (mode) {
       case 'Cash':
         return 'success';
@@ -109,7 +109,7 @@ export const PaymentList: React.FC<PaymentListProps> = ({
           />
           
           <Select
-            options={paymentModes}
+            options={payment_modes}
             value={filters.mode}
             onChange={(value) => handleFilterChange('mode', value)}
           />
@@ -152,13 +152,13 @@ export const PaymentList: React.FC<PaymentListProps> = ({
                   <tr key={payment.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">
-                        {getUserName(payment.userId)}
+                        {getUserName(payment.user_id)}
                       </div>
                       <div className="text-xs text-gray-500">
-                        {getUserEmail(payment.userId)}
+                        {getUserEmail(payment.user_id)}
                       </div>
                       <div className="text-xs text-gray-500">
-                        {getUserMobile(payment.userId)}
+                        {getUserMobile(payment.user_id)}
                       </div>
                     </td>
                     
@@ -167,21 +167,21 @@ export const PaymentList: React.FC<PaymentListProps> = ({
                         <span className="text-sm font-medium text-gray-900 mr-2">
                           ₹{payment.amount.toFixed(2)}
                         </span>
-                        <Badge variant={getPaymentModeColor(payment.paymentMode)}>
-                          {payment.paymentMode}
+                        <Badge variant={getpayment_modeColor(payment.payment_mode)}>
+                          {payment.payment_mode}
                         </Badge>
                       </div>
                     </td>
                     
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">
-                        {formatDateTime(payment.paymentDate)}
+                        {formatDateTime(payment.payment_date)}
                       </div>
                     </td>
                     
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">
-                        {getMonthName(payment.paidForMonth)}
+                        {getMonthName(payment.paid_for_month)}
                       </div>
                     </td>
                     

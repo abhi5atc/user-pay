@@ -4,19 +4,19 @@ export interface User {
   email: string;
   mobile: string;
   address: string;
-  seatNo: string;
-  joiningDate: string;
+  seat_no: string;
+  joining_date: string;
 }
 
-export type PaymentMode = 'Cash' | 'Card' | 'UPI' | 'Bank Transfer' | 'Other';
+export type payment_mode = 'Cash' | 'Card' | 'UPI' | 'Bank Transfer' | 'Other';
 
 export interface Payment {
   id: string;
-  userId: string;
-  paymentDate: string;
-  paymentMode: PaymentMode;
+  user_id: string;
+  payment_date: string;
+  payment_mode: payment_mode;
   amount: number;
-  paidForMonth: string; // Format: YYYY-MM
+  paid_for_month: string; // Format: YYYY-MM
   remarks: string;
 }
 

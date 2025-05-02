@@ -98,12 +98,12 @@ export const UserList: React.FC<UserListProps> = ({
                     </td>
                     
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{user.seatNo}</div>
+                      <div className="text-sm text-gray-900">{user.seat_no}</div>
                     </td>
                     
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">
-                        {formatDate(user.joiningDate)}
+                        {formatDate(user.joining_date)}
                       </div>
                     </td>
                     
