@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
 import { AuthProvider } from './context/AuthContext';
+import { AlertProvider } from './context/AlertContext';
+import { AlertContainer } from './components/UI/Alert';
 import { useAuth } from './hooks/useAuth';
 import { DashboardPage } from './pages/DashboardPage';
 import { UsersPage } from './pages/UsersPage';
@@ -31,39 +33,42 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
 function App() {
   return (
     <AuthProvider>
-      <AppProvider>
-        <Router>
-          <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            
-            <Route path="/" element={
-              <ProtectedRoute>
-                <DashboardPage />
-              </ProtectedRoute>
-            } />
-            
-            <Route path="/users" element={
-              <ProtectedRoute>
-                <UsersPage />
-              </ProtectedRoute>
-            } />
-            
-            <Route path="/payments" element={
-              <ProtectedRoute>
-                <PaymentsPage />
-              </ProtectedRoute>
-            } />
-            
-            <Route path="/pending" element={
-              <ProtectedRoute>
-                <PendingPaymentsPage />
-              </ProtectedRoute>
-            } />
-            
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </Router>
-      </AppProvider>
+      <AlertProvider>
+        <AppProvider>
+          <Router>
+            <AlertContainer />
+            <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              
+              <Route path="/" element={
+                <ProtectedRoute>
+                  <DashboardPage />
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/users" element={
+                <ProtectedRoute>
+                  <UsersPage />
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/payments" element={
+                <ProtectedRoute>
+                  <PaymentsPage />
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/pending" element={
+                <ProtectedRoute>
+                  <PendingPaymentsPage />
+                </ProtectedRoute>
+              } />
+              
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Router>
+        </AppProvider>
+      </AlertProvider>
     </AuthProvider>
   );
 }

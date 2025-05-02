@@ -28,7 +28,7 @@ export const UserList: React.FC<UserListProps> = ({
       <CardHeader className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
         <h2 className="text-lg font-medium text-gray-900">Users ({users.length})</h2>
         
-        <div className="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-3">
+        <div className="flex flex-col space-y-3 items-center sm:flex-row sm:space-y-0 sm:space-x-3">
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <Search className="h-4 w-4 text-gray-400" />
@@ -38,7 +38,7 @@ export const UserList: React.FC<UserListProps> = ({
               placeholder="Search users..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
+              className="pl-10 -mb-4"
               fullWidth={false}
             />
           </div>
