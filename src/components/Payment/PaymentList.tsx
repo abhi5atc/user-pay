@@ -5,7 +5,7 @@ import { Button } from '../UI/Button';
 import { Input } from '../UI/Input';
 import { Select } from '../UI/Select';
 import { Plus, Search, User as UserIcon } from 'lucide-react';
-import { Badge } from '../UI/Badge';
+import { Badge, BadgeVariant } from '../UI/Badge';
 import { formatDateTime, getMonthName } from '../../utils/dateUtils';
 import { filterPayments, sortPaymentsByDate } from '../../utils/helpers';
 
@@ -72,7 +72,7 @@ export const PaymentList: React.FC<PaymentListProps> = ({
     return user ? user.mobile : '';
   };
   
-  const getpayment_modeColor = (mode: payment_mode): string => {
+  const getpayment_modeColor = (mode: payment_mode): BadgeVariant | undefined => {
     switch (mode) {
       case 'Cash':
         return 'success';
