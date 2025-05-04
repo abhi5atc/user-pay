@@ -44,10 +44,10 @@ export const filterUsers = (
 export const filterPayments = (
   payments: Payment[],
   filters: {
+    month?: string;
     email?: string;
     phone?: string;
     mode?: string;
-    date?: string;
   },
   users: User[]
 ): Payment[] => {
@@ -55,12 +55,12 @@ export const filterPayments = (
     const user = users.find(u => u.id === payment.user_id);
     if (!user) return false;
     
+    const matchesMonth = !filters.month || payment.paid_for_month === filters.month;
     const matchesEmail = !filters.email || user.email.toLowerCase().includes(filters.email.toLowerCase());
     const matchesPhone = !filters.phone || user.mobile.includes(filters.phone);
     const matchesMode = !filters.mode || payment.payment_mode === filters.mode;
-    const matchesDate = !filters.date || payment.payment_date.includes(filters.date);
     
-    return matchesEmail && matchesPhone && matchesMode && matchesDate;
+    return matchesMonth && matchesEmail && matchesPhone && matchesMode;
   });
 };
 

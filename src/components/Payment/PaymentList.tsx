@@ -4,7 +4,7 @@ import { Card, CardHeader, CardBody } from '../UI/Card';
 import { Button } from '../UI/Button';
 import { Input } from '../UI/Input';
 import { Select } from '../UI/Select';
-import { Plus, Search, User as UserIcon, Calendar } from 'lucide-react';
+import { Plus, Search, User as UserIcon } from 'lucide-react';
 import { Badge } from '../UI/Badge';
 import { formatDateTime, getMonthName } from '../../utils/dateUtils';
 import { filterPayments, sortPaymentsByDate } from '../../utils/helpers';
@@ -21,10 +21,11 @@ export const PaymentList: React.FC<PaymentListProps> = ({
   onAdd
 }) => {
   const [filters, setFilters] = useState({
+    month: new Date().toISOString().slice(0, 7),
+    monthSearch: '',
     email: '',
     phone: '',
-    mode: '',
-    date: ''
+    mode: ''
   });
   
   const payment_modes: { value: string; label: string }[] = [
@@ -34,6 +35,23 @@ export const PaymentList: React.FC<PaymentListProps> = ({
     { value: 'UPI', label: 'UPI' },
     { value: 'Bank Transfer', label: 'Bank Transfer' },
     { value: 'Other', label: 'Other' }
+  ];
+
+  // Get unique months from payments
+  const uniqueMonths = [...new Set(payments.map(p => p.paid_for_month))]
+    .sort((a, b) => b.localeCompare(a));
+
+  // Filter months based on search
+  const filteredMonths = uniqueMonths.filter(month => 
+    getMonthName(month).toLowerCase().includes(filters.monthSearch.toLowerCase())
+  );
+
+  const monthOptions = [
+    { value: '', label: 'All Months' },
+    ...filteredMonths.map(month => ({
+      value: month,
+      label: getMonthName(month)
+    }))
   ];
   
   const filteredPayments = filterPayments(payments, filters, users);
@@ -93,7 +111,13 @@ export const PaymentList: React.FC<PaymentListProps> = ({
           </Button>
         </div>
         
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-5">
+          <Select
+            options={monthOptions}
+            value={filters.month}
+            onChange={(value) => handleFilterChange('month', value)}
+          />
+
           <Input
             placeholder="Filter by email..."
             value={filters.email}
@@ -112,13 +136,6 @@ export const PaymentList: React.FC<PaymentListProps> = ({
             options={payment_modes}
             value={filters.mode}
             onChange={(value) => handleFilterChange('mode', value)}
-          />
-          
-          <Input
-            type="date"
-            value={filters.date}
-            onChange={(e) => handleFilterChange('date', e.target.value)}
-            leftIcon={<Calendar className="h-4 w-4 text-gray-400" />}
           />
         </div>
       </CardHeader>

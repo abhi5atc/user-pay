@@ -1,6 +1,7 @@
 import React from 'react';
-import { Users, CreditCard, Home, AlertCircle } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Users, CreditCard, Home, AlertCircle, LogOut } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 
 interface NavItem {
   name: string;
@@ -10,6 +11,8 @@ interface NavItem {
 
 export const Sidebar: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { signOut } = useAuth();
   
   const navigation: NavItem[] = [
     { name: 'Dashboard', to: '/', icon: <Home size={20} /> },
@@ -17,6 +20,11 @@ export const Sidebar: React.FC = () => {
     { name: 'Payments', to: '/payments', icon: <CreditCard size={20} /> },
     { name: 'Pending Payments', to: '/pending', icon: <AlertCircle size={20} /> }
   ];
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate('/login');
+  };
   
   return (
     <div className="hidden md:flex md:flex-shrink-0">
@@ -56,16 +64,13 @@ export const Sidebar: React.FC = () => {
           </div>
           
           <div className="flex-shrink-0 flex border-t border-indigo-700 p-4">
-            <div className="flex items-center">
-              <div className="ml-3">
-                <p className="text-sm font-medium text-white">
-                  Payment Management
-                </p>
-                <p className="text-xs font-medium text-indigo-200">
-                  v1.0.0
-                </p>
-              </div>
-            </div>
+            <button
+              onClick={handleLogout}
+              className="flex items-center w-full px-2 py-2 text-sm font-medium text-indigo-100 hover:bg-indigo-700 rounded-md"
+            >
+              <LogOut size={16} className="mr-3" />
+              Logout
+            </button>
           </div>
         </div>
       </div>

@@ -1,15 +1,14 @@
 import React from 'react';
 import { Layout } from '../components/Layout/Layout';
 import { DashboardCard } from '../components/Dashboard/DashboardCard';
-import { PendingPaymentsList } from '../components/Dashboard/PendingPaymentsList';
 import { useApp } from '../context/AppContext';
 import { Card, CardHeader, CardBody } from '../components/UI/Card';
-import { Users, CreditCard, AlertCircle, DollarSign } from 'lucide-react';
+import { Users, CreditCard, DollarSign } from 'lucide-react';
 import { getCurrentMonth, getPreviousMonth, getMonthName } from '../utils/dateUtils';
 import { sortPaymentsByDate } from '../utils/helpers';
 
 export const DashboardPage: React.FC = () => {
-  const { users, payments, usersWithStatus } = useApp();
+  const { users, payments } = useApp();
   
   const totalUsers = users.length;
   
@@ -22,9 +21,6 @@ export const DashboardPage: React.FC = () => {
   const currentMonthAmount = currentMonthPayments.reduce((sum, payment) => sum + payment.amount, 0);
   const previousMonthAmount = previousMonthPayments.reduce((sum, payment) => sum + payment.amount, 0);
   
-  const usersNotPaidCurrentMonth = usersWithStatus.filter(u => !u.hasPaidForCurrentMonth).length;
-  const usersNotPaidPreviousMonth = usersWithStatus.filter(u => !u.hasPaidForPreviousMonth).length;
-  
   const recentPayments = sortPaymentsByDate(payments).slice(0, 5);
   
   const getUserName = (user_id: string): string => {
@@ -34,7 +30,7 @@ export const DashboardPage: React.FC = () => {
   
   return (
     <Layout title="Dashboard">
-      <div className="grid grid-cols-1 gap-6 mb-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-6 mb-6 sm:grid-cols-2 lg:grid-cols-3">
         <DashboardCard
           title="Total Users"
           value={totalUsers}
@@ -56,21 +52,14 @@ export const DashboardPage: React.FC = () => {
         />
         
         <DashboardCard
-          title="Pending Current Month"
-          value={usersNotPaidCurrentMonth}
-          icon={<AlertCircle size={24} />}
-          color="yellow"
-        />
-        
-        <DashboardCard
-          title="Pending Previous Month"
-          value={usersNotPaidPreviousMonth}
+          title="Total Collection"
+          value={`₹${payments.reduce((sum, payment) => sum + payment.amount, 0).toFixed(2)}`}
           icon={<CreditCard size={24} />}
-          color="red"
+          color="blue"
         />
       </div>
       
-      <div className="grid grid-cols-1 gap-6 mb-6 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 mb-6">
         <Card>
           <CardHeader>
             <h2 className="text-lg font-medium text-gray-900">
@@ -108,60 +97,6 @@ export const DashboardPage: React.FC = () => {
             </div>
           </CardBody>
         </Card>
-        
-        <Card>
-          <CardHeader>
-            <h2 className="text-lg font-medium text-gray-900">
-              Payment Summary
-            </h2>
-          </CardHeader>
-          
-          <CardBody>
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-sm font-medium text-gray-500">Current Month ({getMonthName(currentMonth)})</h3>
-                <div className="mt-2 flex justify-between">
-                  <div>
-                    <p className="text-sm text-gray-500">Total Collected</p>
-                    <p className="text-lg font-semibold text-gray-900">₹{currentMonthAmount.toFixed(2)}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Paid Users</p>
-                    <p className="text-lg font-semibold text-gray-900">{totalUsers - usersNotPaidCurrentMonth} / {totalUsers}</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="pt-4 border-t border-gray-200">
-                <h3 className="text-sm font-medium text-gray-500">Previous Month ({getMonthName(previousMonth)})</h3>
-                <div className="mt-2 flex justify-between">
-                  <div>
-                    <p className="text-sm text-gray-500">Total Collected</p>
-                    <p className="text-lg font-semibold text-gray-900">₹{previousMonthAmount.toFixed(2)}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Paid Users</p>
-                    <p className="text-lg font-semibold text-gray-900">{totalUsers - usersNotPaidPreviousMonth} / {totalUsers}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </CardBody>
-        </Card>
-      </div>
-      
-      <div className="space-y-6">
-        <PendingPaymentsList
-          users={usersWithStatus}
-          title="Pending Payments for Current Month"
-          currentMonth={true}
-        />
-        
-        <PendingPaymentsList
-          users={usersWithStatus}
-          title="Pending Payments for Previous Month"
-          currentMonth={false}
-        />
       </div>
     </Layout>
   );
