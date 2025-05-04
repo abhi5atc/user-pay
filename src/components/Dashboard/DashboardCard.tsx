@@ -50,7 +50,7 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
               <span className={`
                 text-sm font-medium ${trend.isPositive ? 'text-green-600' : 'text-red-600'}
               `}>
-                {trend.isPositive ? '+' : '-'}{trend.value}%
+                {trend.isPositive ? '+' : ''}{trend.value}%
               </span>
               <span className="text-sm text-gray-500 ml-1">from last month</span>
             </div>
