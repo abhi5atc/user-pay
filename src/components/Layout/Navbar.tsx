@@ -25,6 +25,10 @@ export const Navbar: React.FC<NavbarProps> = ({ title }) => {
     navigate('/login');
   };
   
+  const handleRefresh = () => {
+    window.location.reload();
+  };
+  
   return (
     <header className="bg-white shadow-sm z-10">
       <div className="px-4 sm:px-6 lg:px-8">
@@ -44,7 +48,7 @@ export const Navbar: React.FC<NavbarProps> = ({ title }) => {
             </h1>
           </div>
           
-          <div className="hidden md:flex items-center">
+          <div className="hidden md:flex items-center space-x-4">
             <span className="text-sm text-gray-500">
               {new Date().toLocaleDateString('en-US', { 
                 weekday: 'long', 
@@ -53,6 +57,37 @@ export const Navbar: React.FC<NavbarProps> = ({ title }) => {
                 day: 'numeric' 
               })}
             </span>
+            
+            <button
+              onClick={handleRefresh}
+              className="p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              title="Refresh page"
+            >
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                viewBox="0 0 512 512" 
+                className="h-5 w-5 fill-indigo-800"
+              >
+                <path d="M463.5 224l8.5 0c13.3 0 24-10.7 24-24l0-128c0-9.7-5.8-18.5-14.8-22.2s-19.3-1.7-26.2 5.2L413.4 96.6c-87.6-86.5-228.7-86.2-315.8 1c-87.5 87.5-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3c62.2-62.2 162.7-62.5 225.3-1L327 183c-6.9 6.9-8.9 17.2-5.2 26.2s12.5 14.8 22.2 14.8l119.5 0z"/>
+              </svg>
+            </button>
+          </div>
+          
+          {/* Mobile refresh button */}
+          <div className="md:hidden">
+            <button
+              onClick={handleRefresh}
+              className="p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              title="Refresh page"
+            >
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                viewBox="0 0 512 512" 
+                className="h-5 w-5 fill-indigo-800"
+              >
+                <path d="M463.5 224l8.5 0c13.3 0 24-10.7 24-24l0-128c0-9.7-5.8-18.5-14.8-22.2s-19.3-1.7-26.2 5.2L413.4 96.6c-87.6-86.5-228.7-86.2-315.8 1c-87.5 87.5-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3c62.2-62.2 162.7-62.5 225.3-1L327 183c-6.9 6.9-8.9 17.2-5.2 26.2s12.5 14.8 22.2 14.8l119.5 0z"/>
+              </svg>
+            </button>
           </div>
         </div>
       </div>
